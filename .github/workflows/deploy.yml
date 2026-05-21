@@ -1,0 +1,62 @@
+name: Deploy WebApp on Tomcat
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  deploy-tomcat:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Build WAR with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Verify WAR file
+        run: test -f target/WebApp.war
+
+      - name: Build Tomcat Docker image
+        run: docker build -t webapp .
+
+      - name: Run Tomcat container (localhost in runner)
+        run: |
+          docker rm -f webapp-deploy 2>/dev/null || true
+          docker run -d --name webapp-deploy -p 8080:8080 webapp
+
+      - name: Wait for Tomcat and verify app is live
+        run: |
+          echo "Waiting for Tomcat to start..."
+          for i in $(seq 1 60); do
+            if curl -sf -o /dev/null http://localhost:8080/WebApp/; then
+              echo "SUCCESS: WebApp is live at http://localhost:8080/WebApp/"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "ERROR: Tomcat did not become ready in time"
+          docker logs webapp-deploy
+          exit 1
+
+      - name: Stop Tomcat container
+        if: always()
+        run: docker rm -f webapp-deploy
+
+      - name: Localhost instructions
+        run: |
+          echo "=============================================="
+          echo " Run on YOUR machine (localhost):"
+          echo "   mvn clean package -DskipTests"
+          echo "   docker compose up --build"
+          echo " Open: http://localhost:8080/WebApp/"
+          echo "=============================================="

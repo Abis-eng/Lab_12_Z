@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>Lab12Z</display-name>
+
+    <context-param>
+        <param-name>mysql.bootstrapUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysql.jdbcUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/lab_12_z?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysql.user</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysql.password</param-name>
+        <param-value></param-value>
+    </context-param>
+</web-app>
