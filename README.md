@@ -40,6 +40,16 @@ Open: **http://localhost:8081/WebApp/**
 | `deploy.yml` | main | Build WAR, run Tomcat in Docker, verify app |
 | `deploy-staging.yml` | develop | Staging deploy on port 8081 |
 
+## Live URLs
+
+| Service | URL |
+|---------|-----|
+| GitHub Pages (static site + banner) | https://abis-eng.github.io/Lab_12_Z/ |
+| GitHub Actions | https://github.com/Abis-eng/Lab_12_Z/actions |
+| Docker app (local) | http://localhost:8081/WebApp/ |
+
+**Pages setup:** Repo → Settings → Pages → Source: **GitHub Actions**.
+
 ## Push to GitHub
 
 ```bash
