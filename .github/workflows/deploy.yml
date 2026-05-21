@@ -38,8 +38,9 @@ jobs:
         run: |
           echo "Waiting for Tomcat to start..."
           for i in $(seq 1 60); do
-            if curl -sf -o /dev/null http://localhost:8080/WebApp/; then
-              echo "SUCCESS: WebApp is live at http://localhost:8080/WebApp/"
+            if curl -sf -o /dev/null http://localhost:8080/WebApp/ \
+               && curl -sf -o /dev/null http://localhost:8080/WebApp/images/lab12z.svg; then
+              echo "SUCCESS: WebApp and lab banner image are live at http://localhost:8080/WebApp/"
               exit 0
             fi
             sleep 2

@@ -24,17 +24,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare static site
-        run: |
-          mkdir -p _site/images
-          cp index.html _site/
-          cp images/lab12z.svg _site/images/
-          mkdir -p _site/staging
-          cp staging/index.html _site/staging/
-          cp images/lab12z.svg _site/staging/../images/ 2>/dev/null || cp images/lab12z.svg _site/images/
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Prepare static site
+        run: |
+          mkdir -p _site/images _site/staging
+          cp index.html _site/
+          cp images/lab12z.svg _site/images/
+          cp staging/index.html _site/staging/
+          echo "Static site files:"
+          find _site -type f
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
@@ -44,3 +46,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Pages URL
+        run: echo "Live at ${{ steps.deployment.outputs.page_url }}"
